@@ -1,18 +1,24 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Dimensions } from "react-native";
 import Reel from "./InfiniteScrollReel";
+
+var { width, height } = Dimensions.get('window');
 class index extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      odometerValue:"000000"
+      odometerValue: "000000"
     };
   }
   changeReel = (reel, value) => {
     console.log("TCL: index -> changeReel -> reel, value", reel, value);
-    let {odometerValue} = this.state
-    odometerValue = odometerValue.substring(0, reel) + value + odometerValue.substring(reel + 1);
-    this.setState({odometerValue})
+    let { odometerValue } = this.state;
+    odometerValue =
+      odometerValue.substring(0, reel) +
+      value +
+      odometerValue.substring(reel + 1);
+    this.setState({ odometerValue });
+    this.props.onOdometerChange(odometerValue);
   };
 
   render() {
@@ -21,18 +27,22 @@ class index extends Component {
     decimalrange = decimalrange.map(item => {
       return { key: item };
     });
-    
+
     return (
-      <View style={{ flex: 1 }}>
-        <Text>{this.state.odometerValue}</Text>
+      <View
+        style={{
+          flex: 1,
+          position: "relative"
+        }}
+      >
         <View
           style={{
-            flex: 1,
+            position:'relative',
             alignItems: "center",
-            backgroundColor: "#fff",
-            padding: 20,
+            
             flexDirection: "row",
-            justifyContent: "center"
+            justifyContent: "center",
+            backgroundColor: "#fff"
           }}
         >
           <Reel
@@ -84,11 +94,27 @@ class index extends Component {
             onSelectChange={index => this.changeReel(5, index)}
           />
         </View>
+        <View style={{ left: 0, top: 0, position:'absolute', height:75, width:null}}>
+          <View style={{
+            backgroundColor: '#000',
+            opacity: 0.5,
+            height: 25,
+            width: 360
+          }}/>
+          <View style={{
+            height: 25,
+            width: 360
+          }}/>
+          <View style={{
+            backgroundColor: '#000',
+            opacity: 0.5,
+            height: 25,
+            width: 360
+          }}/>
+        </View>
       </View>
     );
   }
 }
-
-
 
 export default index;

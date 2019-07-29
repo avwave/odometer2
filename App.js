@@ -8,7 +8,6 @@
 
 import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
-import Odometer from './Odometer'
 import InfiniteScroll from './InfiniteScroll';
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -19,11 +18,18 @@ const instructions = Platform.select({
 
 type Props = {};
 export default class App extends Component<Props> {
+  constructor(props) {
+    super(props);
+    this.state = {
+      odometerValue:"000000"
+    };
+  }
   render() {
     return (
       <View style={styles.container}>
-        {/* <Odometer /> */}
-        <InfiniteScroll/>
+        <Text>{this.state.odometerValue}</Text>
+        <InfiniteScroll
+          onOdometerChange={(odometerValue) => this.setState({ odometerValue })}/>
       </View>
     );
   }

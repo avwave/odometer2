@@ -59,7 +59,9 @@ export default class InfinteScrollReel extends Component {
   }
   
   onViewableItemsChanged = ({ viewableItems, changed }) => {
-    this.setState({visibles: viewableItems})
+    this.setState({ visibles: viewableItems }, () => {
+      this.props.onSelectChange(get(this.state, 'visibles[1].item.key', 0))
+    })
   }
 
   renderItem = ({ item }) => {
@@ -89,21 +91,22 @@ export default class InfinteScrollReel extends Component {
         ref={ref => {
           this.infListRef = ref;
         }}
+        scrollEventThrottle={16}
         initialScrollIndex={9}
         snapToInterval={25}
-        snapToAlignment="start"
+        snapToAlignment="center"
         decelerationRate="fast"
         data={this.state.data}
         renderItem={this.renderItem}
         onScroll={({ nativeEvent }) => this.checkScroll(nativeEvent)}
         bounces={false}
         onMomentumScrollEnd={this.onScrollEnd}
-        onScrollBeginDrag={this.beginDrag}
+        onScrollEndDrag={this.onScrollEnd}
         showsVerticalScrollIndicator={this.props.showsVerticalScrollIndicator}
         getItemLayout={(data, index) => (
-          
           {length: 25, offset: 25 * index, index}
         )}
+        
       />
     );
   }
@@ -125,10 +128,9 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#FEFEFE"
   },
   text: {
-    color: "#0099A8",
+    color: "#000",
     fontSize: 14,
     fontWeight: "bold"
   }
