@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { FlatList, View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import get from 'lodash/get'
-
+import findIndex from 'lodash/findIndex'
 
 export default class InfinteScrollReel extends Component {
   constructor(props) {
@@ -21,6 +21,17 @@ export default class InfinteScrollReel extends Component {
     this.props.onScrollData(this.state.data)
   }
 
+  wraparoundDecimal = (index) => {
+    const decimalrange = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+    let wrapIndex = 0
+    if (--index < 0) {
+      wrapIndex = decimalrange.length - 1
+    } else {
+      wrapIndex = index % decimalrange.length
+    }
+    return decimalrange[wrapIndex]
+  }
+
   checkScroll = ({ layoutMeasurement, contentOffset, contentSize }) => {
     if (this.state.data.length >= length * 3)
       this.setState(prevState => ({
@@ -33,6 +44,7 @@ export default class InfinteScrollReel extends Component {
           data: [...prevState.data, ...data]
         }),
         () => {
+          console.log('scrolltoindex', length)
           this.infListRef.scrollToIndex({ index: length, animated: false})
         }
       );
@@ -67,7 +79,7 @@ export default class InfinteScrollReel extends Component {
 
   renderItem = ({ item }) => {
     return (
-      <View style={[styles.listItem, {height:this.props.boxHeight}]}>
+      <View style={[styles.listItem, { height: this.props.boxHeight }]}>
         <Text style={styles.text}>{item.key}</Text>
       </View>
     );
@@ -93,14 +105,14 @@ export default class InfinteScrollReel extends Component {
           this.infListRef = ref;
         }}
         scrollEventThrottle={16}
-        initialScrollIndex={9}
+        initialScrollIndex={this.wraparoundDecimal(this.props.digit)}
         snapToInterval={this.props.boxHeight}
         snapToAlignment="center"
         decelerationRate="fast"
         data={this.state.data}
         renderItem={this.renderItem}
         onScroll={({ nativeEvent }) => this.checkScroll(nativeEvent)}
-        bounces={false}
+        bounces
         onMomentumScrollEnd={this.onScrollEnd}
         onScrollEndDrag={this.onScrollEnd}
         showsVerticalScrollIndicator={this.props.showsVerticalScrollIndicator}

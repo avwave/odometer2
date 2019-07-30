@@ -1,15 +1,55 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import Reel from "./InfiniteScrollReel";
-
 var { width, height } = Dimensions.get('window');
 class index extends Component {
+  static defaultProps = {
+    boxHeight: 25,
+    digits: 6,
+    initial: 0,
+  }
+  
   constructor(props) {
     super(props);
     this.state = {
-      odometerValue: "000000"
+      odometerValue: "000000",
+      digits: [],
     };
+    
+    this.decimalrange = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map(item => {
+      return { key: item };
+    });
   }
+
+  componentDidMount() {
+    const digits = this.padStart(this.props.initial.toString(), this.props.digits, '0').split('');
+    this.props.onOdometerChange(Number(digits.join('')));
+    this.setState({ digits, selectedDigits: digits });
+  }
+
+  componentDidUpdate(prevProps) {
+      if (this.props.initial !== prevProps.initial) {
+          const digits = this.padStart(this.props.initial.toString(), this.props.digits, '0').split('');
+          this.setState({ digits, selectedDigits: digits });
+      }
+  }
+    
+  
+
+
+  padStart = (targetString, targetStringLength, pad) => {
+    let targetLength = targetStringLength >> 0; //truncate if number or convert non-number to 0;
+    if (targetString.length > targetLength) {
+        return String(targetString);
+    }
+    targetLength -= targetString.length;
+    let padString = pad;
+    if (targetLength > padString.length) {
+        padString += padString.repeat(targetLength / padString.length); //append to original to ensure we are longer than needed
+    }
+    return padString.slice(0, targetLength) + String(targetString);
+  };
+  
   changeReel = (reel, value) => {
     console.log("TCL: index -> changeReel -> reel, value", reel, value);
     let { odometerValue } = this.state;
@@ -21,14 +61,28 @@ class index extends Component {
     this.props.onOdometerChange(odometerValue);
   };
 
+  renderPickers = () => {
+    const BOX_HEIGHT = this.props.boxHeight;
+    
+    const mapDigits = this.state.digits.map((digit, i) => {
+      return (
+        <Reel
+          key={`reel${i}`}
+          reelId={`${i}`}
+          style={{ height: BOX_HEIGHT*3, width: BOX_HEIGHT }}
+          itemStyle={{ textAlign: "center" }}
+          data={this.decimalrange}
+          digit={digit}
+          boxHeight={BOX_HEIGHT}
+          onSelectChange={index => this.changeReel(i, index)}
+        />
+      )
+    })
+    
+    return mapDigits
+  }
   render() {
     const BOX_HEIGHT = this.props.boxHeight;
-    let decimalrange = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-    decimalrange = decimalrange.map(item => {
-      return { key: item };
-    });
-
     return (
       <View
         style={{
@@ -46,60 +100,8 @@ class index extends Component {
             backgroundColor: "#fff"
           }}
         >
-          <Reel
-            reelId="01"
-            style={{ height: BOX_HEIGHT*3, width: 60 }}
-            itemStyle={{ textAlign: "center" }}
-            data={decimalrange}
-            index={0}
-            boxHeight={BOX_HEIGHT}
-            onSelectChange={index => this.changeReel(0, index)}
-          />
-          <Reel
-            reelId="02"
-            style={{ height: BOX_HEIGHT*3, width: 60 }}
-            itemStyle={{ textAlign: "center" }}
-            data={decimalrange}
-            index={0}
-            boxHeight={BOX_HEIGHT}
-            onSelectChange={index => this.changeReel(1, index)}
-          />
-          <Reel
-            reelId="03"
-            style={{ height: BOX_HEIGHT*3, width: 60 }}
-            itemStyle={{ textAlign: "center" }}
-            data={decimalrange}
-            index={0}
-            boxHeight={BOX_HEIGHT}
-            onSelectChange={index => this.changeReel(2, index)}
-          />
-          <Reel
-            reelId="04"
-            style={{ height: BOX_HEIGHT*3, width: 60 }}
-            itemStyle={{ textAlign: "center" }}
-            data={decimalrange}
-            index={0}
-            boxHeight={BOX_HEIGHT}
-            onSelectChange={index => this.changeReel(3, index)}
-          />
-          <Reel
-            reelId="05"
-            style={{ height: BOX_HEIGHT*3, width: 60 }}
-            itemStyle={{ textAlign: "center" }}
-            data={decimalrange}
-            index={0}
-            boxHeight={BOX_HEIGHT}
-            onSelectChange={index => this.changeReel(4, index)}
-          />
-          <Reel
-            reelId="06"
-            style={{ height: BOX_HEIGHT*3, width: 60 }}
-            itemStyle={{ textAlign: "center" }}
-            data={decimalrange}
-            index={0}
-            boxHeight={BOX_HEIGHT}
-            onSelectChange={index => this.changeReel(5, index)}
-          />
+          {this.renderPickers()}
+          
         </View>
         <View style={{ left: 0, top: 0, position:'absolute', height:BOX_HEIGHT*3, width:null}}>
           <View style={{

@@ -30,6 +30,8 @@ export default class App extends Component<Props> {
         <Text>{this.state.odometerValue}</Text>
         <InfiniteScroll
           boxHeight={60}
+          digits={6}
+          initial={90210}
           onOdometerChange={(odometerValue) => this.setState({ odometerValue })}/>
       </View>
     );
