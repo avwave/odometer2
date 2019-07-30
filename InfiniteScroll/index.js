@@ -51,7 +51,6 @@ class index extends Component {
   };
   
   changeReel = (reel, value) => {
-    console.log("TCL: index -> changeReel -> reel, value", reel, value);
     let { odometerValue } = this.state;
     odometerValue =
       odometerValue.substring(0, reel) +
@@ -97,7 +96,7 @@ class index extends Component {
             
             flexDirection: "row",
             justifyContent: "center",
-            backgroundColor: "#fff"
+            backgroundColor: "#000"
           }}
         >
           {this.renderPickers()}

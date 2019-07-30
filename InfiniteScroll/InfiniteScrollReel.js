@@ -66,8 +66,6 @@ export default class InfinteScrollReel extends Component {
   };
 
   onScrollEnd = (e) => {
-    console.log("TCL: onScrollEnd -> this.state.visibles", this.state.visibles)
-    console.log("TCL: onScrollEnd -> contentOffset", e.nativeEvent)
     this.props.onSelectChange(get(this.state, 'visibles[1].item.key', 0))
   }
   
@@ -80,7 +78,9 @@ export default class InfinteScrollReel extends Component {
   renderItem = ({ item }) => {
     return (
       <View style={[styles.listItem, { height: this.props.boxHeight }]}>
-        <Text style={styles.text}>{item.key}</Text>
+        <View style={[styles.boxItem, {height: this.props.boxHeight, width: this.props.boxHeight - 6}]}>
+          <Text style={styles.text}>{item.key}</Text>
+        </View>
       </View>
     );
   };
@@ -140,10 +140,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor:'#000'
+  },
+  boxItem: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor:'#333'
   },
   text: {
-    color: "#000",
-    fontSize: 14,
+    color: "#fff",
+    fontSize: 30,
     fontWeight: "bold"
   }
 });
