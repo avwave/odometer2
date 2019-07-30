@@ -78,8 +78,8 @@ export default class InfinteScrollReel extends Component {
   renderItem = ({ item }) => {
     return (
       <View style={[styles.listItem, { height: this.props.boxHeight }]}>
-        <View style={[styles.boxItem, {height: this.props.boxHeight, width: this.props.boxHeight - 6}]}>
-          <Text style={styles.text}>{item.key}</Text>
+        <View style={[styles.boxItem, { height: this.props.boxHeight, width: this.props.boxHeight - 6}]}>
+          <Text style={[styles.text, {fontSize: this.props.fontSize}]}>{item.key}</Text>
         </View>
       </View>
     );
@@ -132,7 +132,8 @@ InfinteScrollReel.propTypes = {
 
 InfinteScrollReel.defaultProps = {
   offset: 25,
-  showsVerticalScrollIndicator: false
+  showsVerticalScrollIndicator: false,
+  fontSize: 30,
 };
 
 const styles = StyleSheet.create({
@@ -150,7 +151,6 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#fff",
-    fontSize: 30,
     fontWeight: "bold"
   }
 });
