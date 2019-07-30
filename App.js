@@ -29,6 +29,7 @@ export default class App extends Component<Props> {
       <View style={styles.container}>
         <Text>{this.state.odometerValue}</Text>
         <InfiniteScroll
+          boxHeight={60}
           onOdometerChange={(odometerValue) => this.setState({ odometerValue })}/>
       </View>
     );

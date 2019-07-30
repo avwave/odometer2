@@ -3,6 +3,7 @@ import { FlatList, View, Text, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
 import get from 'lodash/get'
 
+
 export default class InfinteScrollReel extends Component {
   constructor(props) {
     super(props);
@@ -66,7 +67,7 @@ export default class InfinteScrollReel extends Component {
 
   renderItem = ({ item }) => {
     return (
-      <View style={styles.listItem}>
+      <View style={[styles.listItem, {height:this.props.boxHeight}]}>
         <Text style={styles.text}>{item.key}</Text>
       </View>
     );
@@ -93,7 +94,7 @@ export default class InfinteScrollReel extends Component {
         }}
         scrollEventThrottle={16}
         initialScrollIndex={9}
-        snapToInterval={25}
+        snapToInterval={this.props.boxHeight}
         snapToAlignment="center"
         decelerationRate="fast"
         data={this.state.data}
@@ -104,7 +105,7 @@ export default class InfinteScrollReel extends Component {
         onScrollEndDrag={this.onScrollEnd}
         showsVerticalScrollIndicator={this.props.showsVerticalScrollIndicator}
         getItemLayout={(data, index) => (
-          {length: 25, offset: 25 * index, index}
+          {length: this.props.boxHeight, offset: this.props.boxHeight * index, index}
         )}
         
       />
@@ -124,7 +125,6 @@ InfinteScrollReel.defaultProps = {
 
 const styles = StyleSheet.create({
   listItem: {
-    height: 25,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",

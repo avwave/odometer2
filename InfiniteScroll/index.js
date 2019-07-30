@@ -22,6 +22,7 @@ class index extends Component {
   };
 
   render() {
+    const BOX_HEIGHT = this.props.boxHeight;
     let decimalrange = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
     decimalrange = decimalrange.map(item => {
@@ -47,68 +48,74 @@ class index extends Component {
         >
           <Reel
             reelId="01"
-            style={{ height: 75, width: 60 }}
+            style={{ height: BOX_HEIGHT*3, width: 60 }}
             itemStyle={{ textAlign: "center" }}
             data={decimalrange}
             index={0}
+            boxHeight={BOX_HEIGHT}
             onSelectChange={index => this.changeReel(0, index)}
           />
           <Reel
             reelId="02"
-            style={{ height: 75, width: 60 }}
+            style={{ height: BOX_HEIGHT*3, width: 60 }}
             itemStyle={{ textAlign: "center" }}
             data={decimalrange}
             index={0}
+            boxHeight={BOX_HEIGHT}
             onSelectChange={index => this.changeReel(1, index)}
           />
           <Reel
             reelId="03"
-            style={{ height: 75, width: 60 }}
+            style={{ height: BOX_HEIGHT*3, width: 60 }}
             itemStyle={{ textAlign: "center" }}
             data={decimalrange}
             index={0}
+            boxHeight={BOX_HEIGHT}
             onSelectChange={index => this.changeReel(2, index)}
           />
           <Reel
             reelId="04"
-            style={{ height: 75, width: 60 }}
+            style={{ height: BOX_HEIGHT*3, width: 60 }}
             itemStyle={{ textAlign: "center" }}
             data={decimalrange}
             index={0}
+            boxHeight={BOX_HEIGHT}
             onSelectChange={index => this.changeReel(3, index)}
           />
           <Reel
             reelId="05"
-            style={{ height: 75, width: 60 }}
+            style={{ height: BOX_HEIGHT*3, width: 60 }}
             itemStyle={{ textAlign: "center" }}
             data={decimalrange}
             index={0}
+            boxHeight={BOX_HEIGHT}
             onSelectChange={index => this.changeReel(4, index)}
           />
           <Reel
             reelId="06"
-            style={{ height: 75, width: 60 }}
+            style={{ height: BOX_HEIGHT*3, width: 60 }}
             itemStyle={{ textAlign: "center" }}
             data={decimalrange}
             index={0}
+            boxHeight={BOX_HEIGHT}
             onSelectChange={index => this.changeReel(5, index)}
           />
         </View>
-        <View style={{ left: 0, top: 0, position:'absolute', height:75, width:null}}>
+        <View style={{ left: 0, top: 0, position:'absolute', height:BOX_HEIGHT*3, width:null}}>
           <View style={{
             backgroundColor: '#000',
             opacity: 0.5,
-            height: 25,
+            height: BOX_HEIGHT,
             width: 360
           }}/>
           <View style={{
-            height: 25,
+            height: BOX_HEIGHT,
             width: 360
           }}/>
           <View style={{
             backgroundColor: '#000',
             opacity: 0.5,
-            height: 25,
+            height: BOX_HEIGHT,
             width: 360
           }}/>
         </View>
